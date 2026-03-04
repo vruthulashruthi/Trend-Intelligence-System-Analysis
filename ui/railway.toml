@@ -1,0 +1,11 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "python -m backend.main"
+restartPolicyType = "always"
+```
+
+**`Procfile`** (fallback):
+```
+web: python -m backend.main
