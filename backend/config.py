@@ -1,0 +1,26 @@
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "trend_intelligence.db")
+
+ARXIV_CATEGORIES = ["cs.AI", "cs.LG", "cs.CL", "cs.CV", "cs.NE"]
+ARXIV_MAX_RESULTS = 100
+ARXIV_BASE_URL = "http://export.arxiv.org/api/query"
+
+SCHEDULER_INTERVAL_MINUTES = 30
+
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+CLASSIFIER_MODEL = "facebook/bart-large-mnli"
+SENTIMENT_MODEL = "distilbert-base-uncased-finetuned-sst-2-english"
+
+DOMAIN_LABELS = [
+    "artificial intelligence and machine learning",
+    "unrelated general topic",
+]
+DOMAIN_THRESHOLD = 0.6
+
+MIN_TOPIC_SIZE = 8
+NR_TOPICS = 8
+
+FASTAPI_HOST = "0.0.0.0"
+FASTAPI_PORT = 8000
