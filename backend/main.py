@@ -50,11 +50,6 @@ def shutdown_event():
         pass
 
 
-@app.on_event("shutdown")
-def shutdown_event():
-    stop_scheduler()
-
-
 @app.get("/")
 def root():
     return {"status": "ok", "service": "Trend Intelligence System"}
