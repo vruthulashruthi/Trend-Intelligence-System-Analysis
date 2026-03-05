@@ -23,4 +23,10 @@ MIN_TOPIC_SIZE = 8
 NR_TOPICS = 8
 
 FASTAPI_HOST = "0.0.0.0"
-FASTAPI_PORT = 8000
+FASTAPI_PORT = int(os.environ.get("PORT", 8000))
+import os
+
+REPORT_SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "shruthi242004@gmail.com")
+REPORT_SENDER_PASSWORD = os.environ.get("SENDER_PASSWORD", "gwut glbl gira jtcx")
+REPORT_RECEIVER_EMAIL = os.environ.get("RECEIVER_EMAIL", "kjvarsini14@gmail.com")
+REPORT_SEND_TIME = os.environ.get("REPORT_SEND_TIME", "12:00")
