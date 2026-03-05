@@ -16,7 +16,6 @@ import uvicorn
 import threading
 
 from backend import database
-from backend.scheduler import run_pipeline, start_scheduler, stop_scheduler
 from backend.config import FASTAPI_HOST, FASTAPI_PORT
 
 app = FastAPI(title="Trend Intelligence API", version="1.0.0")
@@ -25,7 +24,8 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 
 def _background_startup():
     try:
-        logger.info("Background startup: running initial pipeline...")
+        logger.info("Background startup: loading scheduler and running initial pipeline...")
+        from backend.scheduler import run_pipeline, start_scheduler
         run_pipeline()
         start_scheduler()
         logger.info("Scheduler started - pipeline runs every 30 minutes")
@@ -43,6 +43,15 @@ def startup_event():
 
 @app.on_event("shutdown")
 def shutdown_event():
+    try:
+        from backend.scheduler import stop_scheduler
+        stop_scheduler()
+    except Exception:
+        pass
+
+
+@app.on_event("shutdown")
+def shutdown_event():
     stop_scheduler()
 
 
@@ -53,6 +62,7 @@ def root():
 
 @app.get("/api/run-pipeline")
 def trigger_pipeline():
+    from backend.scheduler import run_pipeline
     return run_pipeline()
 
 
