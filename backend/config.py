@@ -10,7 +10,7 @@ ARXIV_BASE_URL = "http://export.arxiv.org/api/query"
 SCHEDULER_INTERVAL_MINUTES = 30
 
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
-CLASSIFIER_MODEL = "facebook/bart-large-mnli"
+CLASSIFIER_MODEL = "typeform/distilbert-base-uncased-mnli"
 SENTIMENT_MODEL = "distilbert-base-uncased-finetuned-sst-2-english"
 
 DOMAIN_LABELS = [
