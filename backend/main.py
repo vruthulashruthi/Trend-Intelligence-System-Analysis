@@ -24,9 +24,8 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 
 def _background_startup():
     try:
-        logger.info("Background startup: loading scheduler and running initial pipeline...")
-        from backend.scheduler import run_pipeline, start_scheduler
-        run_pipeline()
+        logger.info("Background startup: loading scheduler...")
+        from backend.scheduler import start_scheduler
         start_scheduler()
         logger.info("Scheduler started - pipeline runs every 30 minutes")
     except Exception as e:
