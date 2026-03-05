@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import threading
 
 from backend import database
 from backend.scheduler import run_pipeline, start_scheduler, stop_scheduler
@@ -22,13 +23,22 @@ app = FastAPI(title="Trend Intelligence API", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 
+def _background_startup():
+    try:
+        logger.info("Background startup: running initial pipeline...")
+        run_pipeline()
+        start_scheduler()
+        logger.info("Scheduler started - pipeline runs every 30 minutes")
+    except Exception as e:
+        logger.error("Background startup error: %s", e)
+
+
 @app.on_event("startup")
 def startup_event():
     database.init_db()
-    logger.info("Database initialized. Running initial pipeline...")
-    run_pipeline()
-    start_scheduler()
-    logger.info("Scheduler started - pipeline runs every 30 minutes")
+    logger.info("Database initialized.")
+    t = threading.Thread(target=_background_startup, daemon=True)
+    t.start()
 
 
 @app.on_event("shutdown")
